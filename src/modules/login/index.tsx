@@ -21,6 +21,7 @@ import { ChevronRight } from "lucide-react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useNavigate } from "react-router";
 
 type LoginStep1Values = {
   email: string;
@@ -31,6 +32,8 @@ const FormSchema = z.object({
 });
 
 const Login = () => {
+  const navigate = useNavigate();
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -38,7 +41,9 @@ const Login = () => {
     },
   });
 
-  const onSubmit: SubmitHandler<LoginStep1Values> = async (data) => {};
+  const onSubmit: SubmitHandler<LoginStep1Values> = async (data) => {
+    navigate("/sign-in/factor-one");
+  };
   return (
     <>
       <section className="h-[100vh] flex items-center justify-center">
@@ -50,7 +55,7 @@ const Login = () => {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-3 w-full flex items-center justify-center flex-col">
-            <Button variant="outline" className="font-normal">
+            <Button variant="outline" className="font-normal text-gray-500">
               <img src="https://img.clerk.com/static/google.svg?width=80" />
               Continue with Google
             </Button>
