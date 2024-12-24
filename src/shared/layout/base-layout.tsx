@@ -37,7 +37,11 @@ const BaseLayout = () => {
       <main className="container mx-auto py-3 md:py-4">
         <Outlet />
       </main>
-      <footer></footer>
+      <footer className="border-t mt-10">
+        <div className="container mx-auto text-xs py-3 md:py-4 text-center">
+          <p>Copyright &copy; 2024 All rights reserved</p>
+        </div>
+      </footer>
     </>
   );
 };
