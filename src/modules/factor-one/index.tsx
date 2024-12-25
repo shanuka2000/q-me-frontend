@@ -23,6 +23,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ChevronRight, PenLine } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router";
 import { z } from "zod";
 
 const FormSchema = z.object({
@@ -32,6 +33,7 @@ const FormSchema = z.object({
 });
 
 const FactorOne = () => {
+  const navigate = useNavigate();
   const [anotherMethod, setAnotherMethod] = useState<
     "option1" | "option2" | "option3"
   >("option1");
@@ -42,7 +44,10 @@ const FactorOne = () => {
     },
   });
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {}
+  function onSubmit(data: z.infer<typeof FormSchema>) {
+    navigate("/");
+  }
+
   return (
     <section className="h-[100vh] flex items-center justify-center">
       {anotherMethod === "option1" && (

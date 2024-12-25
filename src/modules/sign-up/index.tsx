@@ -3,7 +3,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -17,14 +16,15 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { ChevronRight } from "lucide-react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router";
+import { z } from "zod";
 
-type LoginStep1Values = {
+type SignUpValues = {
   email: string;
+  password: string;
 };
 
 const FormSchema = z.object({
@@ -32,35 +32,47 @@ const FormSchema = z.object({
     .string()
     .email("Invalid email address")
     .nonempty("Email is required"),
+  password: z
+    .string()
+    .min(8, "Password must be at least 8 characters long")
+    .regex(/[A-Z]/, "Password must have at least one uppercase letter")
+    .regex(/[a-z]/, "Password must have at least one lowercase letter")
+    .regex(/[0-9]/, "Password must have at least one digit")
+    .regex(/[@$!%*?&]/, "Password must have at least one special character"),
 });
 
-const Login = () => {
+const SignUp = () => {
   const navigate = useNavigate();
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       email: "",
+      password: "",
     },
   });
 
-  const onSubmit: SubmitHandler<LoginStep1Values> = async (data) => {
+  const onSubmit: SubmitHandler<SignUpValues> = async (data) => {
     navigate("/sign-in/factor-one");
   };
+
   return (
     <>
       <section className="h-[100vh] flex items-center justify-center">
         <Card className="flex flex-col items-center justify-center px-6 py-10">
           <CardHeader className="text-center">
-            <CardTitle className="text-xl">Sign in to Q-Me</CardTitle>
+            <CardTitle className="text-xl">Create your account</CardTitle>
             <CardDescription>
-              Welcome back! Please sign in to continue
+              WWelcome! Please fill in the details to get started.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-3 w-full flex items-center justify-center flex-col">
-            <Button variant="outline" className="font-normal text-gray-500">
+            <Button
+              variant="outline"
+              className="font-normal text-gray-500 hover:text-gray-500 w-[150px]"
+            >
               <img src="https://img.clerk.com/static/google.svg?width=80" />
-              Continue with Google
+              Google
             </Button>
             <div className="flex items-center text-sm opacity-40 gap-x-7 w-full justify-between">
               <Separator className="flex-1 bg-black/50" />
@@ -79,12 +91,20 @@ const Login = () => {
                     <FormItem>
                       <FormLabel>Email</FormLabel>
                       <FormControl>
-                        <Input
-                          type="email"
-                          {...field}
-                          className="text-xs"
-                          placeholder="Enter your email address"
-                        />
+                        <Input type="email" {...field} className="text-xs" />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Password</FormLabel>
+                      <FormControl>
+                        <Input type="password" {...field} className="text-xs" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -102,18 +122,10 @@ const Login = () => {
               </form>
             </Form>
           </CardContent>
-          <CardFooter className="border-t pt-4">
-            <p className="flex items-center space-x-1 text-xs">
-              <span>Don't have an account?</span>
-              <a href="/sign-up" className="text-primary hover:underline">
-                Sign up
-              </a>
-            </p>
-          </CardFooter>
         </Card>
       </section>
     </>
   );
 };
 
-export default Login;
+export default SignUp;
