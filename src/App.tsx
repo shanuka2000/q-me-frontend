@@ -29,6 +29,10 @@ function App() {
       path: "/sign-up",
       element: <SignUp />,
     },
+    {
+      path: "/sign-up/factor-one",
+      element: <FactorOne />,
+    },
   ]);
   return (
     <>

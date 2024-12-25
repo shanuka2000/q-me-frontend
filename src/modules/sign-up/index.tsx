@@ -53,7 +53,7 @@ const SignUp = () => {
   });
 
   const onSubmit: SubmitHandler<SignUpValues> = async (data) => {
-    navigate("/sign-in/factor-one");
+    navigate("/sign-up/factor-one");
   };
 
   return (
