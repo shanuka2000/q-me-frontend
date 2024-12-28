@@ -22,9 +22,11 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router";
+import GoogleButton from "@/shared/components/google-button";
 
 type LoginStep1Values = {
   email: string;
+  password: string;
 };
 
 const FormSchema = z.object({
@@ -32,6 +34,7 @@ const FormSchema = z.object({
     .string()
     .email("Invalid email address")
     .nonempty("Email is required"),
+  password: z.string().nonempty("Password is required"),
 });
 
 const Login = () => {
@@ -41,6 +44,7 @@ const Login = () => {
     resolver: zodResolver(FormSchema),
     defaultValues: {
       email: "",
+      password: "",
     },
   });
 
@@ -58,10 +62,7 @@ const Login = () => {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-3 w-full flex items-center justify-center flex-col">
-            <Button variant="outline" className="font-normal text-gray-500">
-              <img src="https://img.clerk.com/static/google.svg?width=80" />
-              Continue with Google
-            </Button>
+            <GoogleButton />
             <div className="flex items-center text-sm opacity-40 gap-x-7 w-full justify-between">
               <Separator className="flex-1 bg-black/50" />
               <span>or</span>
@@ -90,6 +91,24 @@ const Login = () => {
                     </FormItem>
                   )}
                 />
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Password</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="password"
+                          {...field}
+                          className="text-xs"
+                          placeholder="Enter your email address"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
                 <Button
                   type="submit"
                   size="sm"
@@ -104,7 +123,7 @@ const Login = () => {
           </CardContent>
           <CardFooter className="border-t pt-4">
             <p className="flex items-center space-x-1 text-xs">
-              <span>Don't have an account?</span>
+              <span className="text-gray-500">Don't have an account?</span>
               <a href="/sign-up" className="text-primary hover:underline">
                 Sign up
               </a>

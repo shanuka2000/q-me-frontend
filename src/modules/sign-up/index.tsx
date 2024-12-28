@@ -3,6 +3,7 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -16,6 +17,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import GoogleButton from "@/shared/components/google-button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ChevronRight } from "lucide-react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -63,17 +65,11 @@ const SignUp = () => {
           <CardHeader className="text-center">
             <CardTitle className="text-xl">Create your account</CardTitle>
             <CardDescription>
-              WWelcome! Please fill in the details to get started.
+              Welcome! Please fill in the details to get started.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-3 w-full flex items-center justify-center flex-col">
-            <Button
-              variant="outline"
-              className="font-normal text-gray-500 hover:text-gray-500 w-[150px]"
-            >
-              <img src="https://img.clerk.com/static/google.svg?width=80" />
-              Google
-            </Button>
+            <GoogleButton />
             <div className="flex items-center text-sm opacity-40 gap-x-7 w-full justify-between">
               <Separator className="flex-1 bg-black/50" />
               <span>or</span>
@@ -122,6 +118,14 @@ const SignUp = () => {
               </form>
             </Form>
           </CardContent>
+          <CardFooter className="border-t pt-4">
+            <p className="flex items-center space-x-1 text-xs">
+              <span className="text-gray-500">Already have an account?</span>
+              <a href="/sign-in" className="text-primary hover:underline">
+                Sign in
+              </a>
+            </p>
+          </CardFooter>
         </Card>
       </section>
     </>
